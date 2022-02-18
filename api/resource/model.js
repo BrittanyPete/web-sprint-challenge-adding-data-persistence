@@ -4,22 +4,13 @@ function findResource() {
     return db('resource')
 }
 
-function findById(resource_id) {
-    return db('resource')
-        .where({ resource_id: Number(resource_id)})
-        .first()
-}
-
-function addResource(resource) {
-    return db('resource')
-    .insert(resource)
-    .then(resource_id => {
-        return findById(resource_id[0])
-    })
+async function addResource(resource) {
+    const [resource_id] = await db('resource')
+    .insert(resource);
+    return findResource().where({resource_id}).first()
 }
 
 module.exports = {
     findResource,
-    findById,
     addResource
 }
