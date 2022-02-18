@@ -1,12 +1,11 @@
 const db = require('../../data/dbConfig');
 
 function findResource() {
-    return db('resource')
+    return db('resources')
 }
 
 async function addResource(resource) {
-    const [resource_id] = await db('resource')
-    .insert(resource);
+    const [resource_id] = await db('resources').insert(resource);
     return findResource().where({resource_id}).first()
 }
 

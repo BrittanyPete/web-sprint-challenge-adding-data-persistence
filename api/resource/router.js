@@ -1,19 +1,20 @@
 const router = require('express').Router();
 const Resource = require('./model');
 
-router.get('/', (req, res, next) => {
-    Resource.findResource()
-    .then(resources => {
-        res.status(200).json(resources)
-    })
-    .catch(next)
+router.get('/', async (req, res, next) => {
+    try {
+        const resource = await Resource.findResource()
+        res.status(200).json(resource)
+    }
+    catch(err) {
+        next()
+    }
 })
 
 router.post('/', (req, res, next) => {
-    const data = req.body;
-    Resource.addResource(data)
-        .then(data => {
-            res.status(201).json(data)
+    Resource.addResource(req.body)
+        .then(resource => {
+            res.status(201).json(resource)
         })
         .catch(next)
 })
